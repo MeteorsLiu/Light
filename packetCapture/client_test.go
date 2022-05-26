@@ -16,7 +16,7 @@ package main
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
 #include <time.h>
-#include "../packetCapture/light.h"
+#include "light.h"
 */
 import "C"
 import (
