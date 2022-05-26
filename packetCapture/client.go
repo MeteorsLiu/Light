@@ -3,19 +3,6 @@ package main
 /*
 #cgo LDFLAGS: -lpcap
 #include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <unistd.h>
-#include <pcap/pcap.h>
-#include <signal.h>
-#include <linux/if_ether.h>
-#include <netinet/ip.h>
-#include <netinet/in.h>
-#include <netinet/if_ether.h>
-#include <arpa/inet.h>
-#include <netinet/tcp.h>
-#include <netinet/udp.h>
-#include <time.h>
 #include "light.h"
 */
 import "C"
