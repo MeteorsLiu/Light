@@ -25,7 +25,7 @@ void Create(uint32_t Key, bpf_u_int32 bytes) {
 void Insert(uint32_t Key, bpf_u_int32 bytes) {
 	//impossible
 	if (Last == NULL)
-		stop_capture();
+		stop_capture(1);
 	List indirect = NULL;
 	indirect = Last->next = (List) malloc(sizeof(struct LinkedList));
 	indirect->Key = Key;

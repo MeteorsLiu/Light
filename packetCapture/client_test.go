@@ -18,7 +18,6 @@ package main
 #include <time.h>
 #include "../packetCapture/light.h"
 */
-
 import "C"
 import (
 	"os"
@@ -28,7 +27,7 @@ import (
 )
 
 func main() {
-	dev := C.CString("ens5")
+	dev := C.CString("ens18")
 	filter := C.CString("tcp dst port 22")
 	defer C.free(unsafe.Pointer(dev))
 	defer C.free(unsafe.Pointer(filter))
