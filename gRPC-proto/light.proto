@@ -1,6 +1,8 @@
 syntax = "proto3";
 
 
+option go_package = "github.com/MeteorsLiu/Light/gRPC-proto";
+
 package light;
 
 service Light {
