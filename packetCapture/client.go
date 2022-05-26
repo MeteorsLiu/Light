@@ -4,6 +4,9 @@ package main
 #cgo LDFLAGS: -lpcap
 #include <stdlib.h>
 #include "light.h"
+#include <stdint.h>
+#include <unistd.h>
+#include <pcap/pcap.h>
 */
 import "C"
 import (
