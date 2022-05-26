@@ -223,11 +223,7 @@ void packetHandler(
 void Init(const char *devName, const char *rule) {
 	if (create_pcap_handle(devName, rule) == ERROR)
     	exit(0);
-
-    //Register Signal
-    signal(SIGINT, stop_capture);
-    signal(SIGTERM, stop_capture);
-    signal(SIGQUIT, stop_capture);
+    
     // Initialize the first recycle time.
     lastRecycleTime = time(NULL);
     // Start Loop
