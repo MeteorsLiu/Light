@@ -20,13 +20,13 @@ import (
 var ResultQueue queue.Queue = nil
 
 // C Interface upload
-func upload(ip *C.char, rates C.uint32_t) {
+func upload(ip, rates *C.char) {
 	if ResultQueue == nil {
 		return
 	}
 	ResultQueue.Push(interfaces.UploadPayload{
 		IP:    C.GoString(ip),
-		Rates: uint32(rates),
+		Rates: C.GoString(rates),
 	})
 }
 func _init(ctx context.Context, q queue.Queue, devName, filterRule string) {

@@ -207,12 +207,16 @@ void packetHandler(
     	}
     	rate = Update((ip_header->ip_src).s_addr, header->len);
     	if (rate > 0) {
+			char GOBUF[1024];
     		if (rate >= MiB) {
     			rate /= MiB;
-    			printf("record:  %s  %luMbps\n", inet_ntoa(ip_header->ip_src), rate);
+    			//printf("record:  %s  %luMbps\n", inet_ntoa(ip_header->ip_src), rate);
+				snprintf(GOBUF, 1024, "%luMbps", rate);
+				upload(inet_ntoa(ip_header->ip_src), GOBUF);
     		} else {
     			rate /= KiB;
-    			printf("record:  %s  %luKbps\n", inet_ntoa(ip_header->ip_src), rate);
+    			snprintf(GOBUF, 1024, "%luKbps", rate);
+				upload(inet_ntoa(ip_header->ip_src), GOBUF);
     		}
     		RecycleLinkedList(); 
     	}
