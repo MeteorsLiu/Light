@@ -2,10 +2,7 @@ package main
 
 import (
 	"context"
-
 	"log"
-
-	"github.com/MeteorsLiu/Light/queue"
 )
 
 func NewPollEventDaemon(ctx context.Context, q *queue.Queue, handler func(*interfaces.UploadPayload) error) {
