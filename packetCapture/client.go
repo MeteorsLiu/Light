@@ -1,4 +1,4 @@
-package main
+package packetCapture
 
 /*
 #cgo LDFLAGS: -lpcap
@@ -17,7 +17,7 @@ import (
 	"github.com/MeteorsLiu/Light/queue"
 )
 
-var ResultQueue queue.Queue = nil
+var ResultQueue *queue.Queue = nil
 
 // C Interface upload
 func upload(ip, rates *C.char) {
@@ -29,7 +29,7 @@ func upload(ip, rates *C.char) {
 		Rates: C.GoString(rates),
 	})
 }
-func _init(ctx context.Context, q queue.Queue, devName, filterRule string) {
+func _init(ctx context.Context, q *queue.Queue, devName, filterRule string) {
 	ResultQueue = q
 
 	dev := C.CString(devName)
