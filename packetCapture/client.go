@@ -12,7 +12,9 @@ import "C"
 import (
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
+	"time"
 	"unsafe"
 )
 
@@ -27,7 +29,18 @@ func main() {
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 
 	go C.Init(dev, filter)
+	ticker := time.NewTicker(time.Second)
+	var mu sync.Mutex
+	defer ticker.Stop()
+	for {
+		select {
+		case <-sigCh:
+			return
+		case <-ticker:
+			mu.Lock()
 
-	<-sigCh
+		}
+
+	}
 
 }
