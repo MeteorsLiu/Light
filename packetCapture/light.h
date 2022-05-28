@@ -1,7 +1,7 @@
 #ifndef _LIGHT_H
 #define _LIGHT_H
 
-extern void upload(uint32_t ip, uint32_t rates);
+extern void upload(char * ip, uint32_t rates);
 //Global Var
 typedef struct LinkedList * List;
 struct LinkedList

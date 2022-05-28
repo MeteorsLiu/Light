@@ -10,37 +10,40 @@ package main
 */
 import "C"
 import (
-	"os"
-	"os/signal"
-	"sync"
-	"syscall"
-	"time"
+	"context"
 	"unsafe"
+
+	"github.com/MeteorsLiu/Light/queue"
 )
 
-func main() {
-	dev := C.CString("ens18")
-	filter := C.CString("tcp dst port 22")
+type uploadPayload struct {
+	IP    string
+	Rates uint32
+}
+
+var ResultQueue queue.Queue = nil
+
+// C Interface upload
+func upload(ip *C.char, rates C.uint32_t) {
+	if ResultQueue == nil {
+		return
+	}
+	ResultQueue.Push(uploadPayload{
+		IP:    C.GoString(ip),
+		Rates: uint32(rates),
+	})
+}
+func _init(ctx context.Context, q queue.Queue, devName, filterRule string) {
+	ResultQueue = q
+
+	dev := C.CString(devName)
+	filter := C.CString(filterRule)
 	defer C.free(unsafe.Pointer(dev))
 	defer C.free(unsafe.Pointer(filter))
 	defer C.stop_capture(C.int(1))
 
-	sigCh := make(chan os.Signal, 1)
-	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
-
 	go C.Init(dev, filter)
-	ticker := time.NewTicker(time.Second)
-	var mu sync.Mutex
-	defer ticker.Stop()
-	for {
-		select {
-		case <-sigCh:
-			return
-		case <-ticker:
-			mu.Lock()
 
-		}
-
-	}
-
+	<-ctx.Done()
+	ResultQueue = nil
 }
