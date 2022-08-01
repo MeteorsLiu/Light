@@ -42,7 +42,8 @@ func (e *ElementC) GetUpdate() *queue.Queue {
 //export UPLOAD
 func UPLOAD(rule C.uintptr_t, ip, rates *C.char) {
 	handle := cgo.Handle(rule)
-	CALL := handle.Value().(func())
+	defer handle.Delete()
+	CALL := handle.Value().(func(*C.char, *C.char))
 	CALL(ip, rates)
 }
 func NewClient(ctx context.Context, devName, filterRule string, returnPtr *ElementC) {
@@ -56,8 +57,9 @@ func NewClient(ctx context.Context, devName, filterRule string, returnPtr *Eleme
 		queue:  queue.New(),
 		signal: ctx,
 	}
+
 	funcPtr := C.uintptr_t(cgo.NewHandle(rule.Upload))
-	defer funcPtr.Delete()
+
 	*returnPtr = *rule
 
 	// Start the daemon process
