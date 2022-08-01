@@ -1,7 +1,7 @@
 #ifndef _LIGHT_H
 #define _LIGHT_H
 
-extern void upload(char * ip, char * rates);
+extern void UPLOAD(uintptr_t rule, char * ip, char * rates);
 //Global Var
 typedef struct LinkedList * List;
 struct LinkedList
@@ -18,7 +18,7 @@ static List Head = NULL;
 static List Last = NULL;
 static uint32_t maxTimes = 0;
 static time_t lastRecycleTime = 0;
-
+static uintptr_t ruleHandle;
 //Macro
 #define ERROR -1
 #define SECOND 1
@@ -40,5 +40,5 @@ void packetHandler(
     const u_char* packet
 );
 
-void Init(const char *devName, const char *rule);
+void Init(uintptr_t rule, const char *devName, const char *rule);
 #endif

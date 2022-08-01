@@ -1,8 +1,9 @@
 package interfaces
 
 type UploadPayload struct {
-	IP    string
-	Rates string
+	RuleID string
+	IP     string
+	Rates  string
 }
 
 type Config struct {

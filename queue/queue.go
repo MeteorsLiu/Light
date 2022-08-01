@@ -1,7 +1,6 @@
 package queue
 
 import (
-	"context"
 	"errors"
 	"time"
 )
@@ -18,7 +17,7 @@ const (
 	WAIT_TIME  = 100 * time.Microsecond
 )
 
-func New(ctx context.Context) *Queue {
+func New() *Queue {
 	return &Queue{
 		Queue: make(chan interface{}, MAXSIZE),
 	}
@@ -31,7 +30,7 @@ func (q *Queue) Push(elem interface{}) error {
 		case q.Queue <- elem:
 			return nil
 		default:
-			//Full wait until the channel is available
+			// Full wait until the channel is available
 			if count > RETRY_TIME {
 				return errors.New("Queue is full")
 			}

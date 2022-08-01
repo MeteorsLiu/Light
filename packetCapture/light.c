@@ -212,11 +212,11 @@ void packetHandler(
     			rate /= MiB;
     			//printf("record:  %s  %luMbps\n", inet_ntoa(ip_header->ip_src), rate);
 				snprintf(GOBUF, 1024, "%luMbps", rate);
-				upload(inet_ntoa(ip_header->ip_src), GOBUF);
+				UPLOAD(ruleHandle, inet_ntoa(ip_header->ip_src), GOBUF);
     		} else {
     			rate /= KiB;
     			snprintf(GOBUF, 1024, "%luKbps", rate);
-				upload(inet_ntoa(ip_header->ip_src), GOBUF);
+				UPLOAD(ruleHandle, inet_ntoa(ip_header->ip_src), GOBUF);
     		}
     		RecycleLinkedList(); 
     	}
@@ -224,12 +224,14 @@ void packetHandler(
     }
 }
 
-void Init(const char *devName, const char *rule) {
+void Init(uintptr_t rule, const char *devName, const char *rule) {
 	if (create_pcap_handle(devName, rule) == ERROR)
     	exit(0);
     
     // Initialize the first recycle time.
     lastRecycleTime = time(NULL);
+	// Initialize the Handler pointer
+	ruleHandle = rule;
     // Start Loop
     pcap_loop(p, 0, packetHandler, NULL);
 }

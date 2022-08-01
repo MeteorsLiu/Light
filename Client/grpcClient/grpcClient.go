@@ -28,6 +28,9 @@ func NewGRPCClient(config *interfaces.Config) (*GRPCClient, *grpc.ClientConn) {
 	}
 
 	grpcClient.Handshake()
+
+	go grpcClient.Establish()
+
 }
 
 func (g *GRPCClient) Handshake() {
