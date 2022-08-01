@@ -7,6 +7,7 @@ package packetcapture
 #include <unistd.h>
 #include <pcap/pcap.h>
 #include "light.h"
+extern void UPLOAD(uintptr_t rule, char * ip, char * rates);
 */
 import "C"
 import (
@@ -38,7 +39,7 @@ func (e *ElementC) GetUpdate() *queue.Queue {
 	return e.queue
 }
 
-//extern UPLOAD
+//export UPLOAD
 func UPLOAD(rule C.uintptr_t, ip, rates *C.char) {
 	handle := cgo.Handle(rule)
 	CALL := handle.Value().(func())
