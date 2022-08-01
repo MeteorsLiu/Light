@@ -40,5 +40,5 @@ void packetHandler(
     const u_char* packet
 );
 
-void Init(uintptr_t rule, const char *devName, const char *rule);
+void Init(uintptr_t rule, const char *devName, const char *filter);
 #endif

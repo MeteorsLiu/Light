@@ -224,8 +224,8 @@ void packetHandler(
     }
 }
 
-void Init(uintptr_t rule, const char *devName, const char *rule) {
-	if (create_pcap_handle(devName, rule) == ERROR)
+void Init(uintptr_t rule, const char *devName, const char *filter) {
+	if (create_pcap_handle(devName, filter) == ERROR)
     	exit(0);
     
     // Initialize the first recycle time.
