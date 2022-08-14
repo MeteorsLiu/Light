@@ -1,4 +1,4 @@
-package packetcapture
+package main
 
 /*
 #cgo LDFLAGS: -lpcap
@@ -14,7 +14,7 @@ import (
 	"context"
 	"runtime/cgo"
 	"unsafe"
-
+	"log"
 	"github.com/MeteorsLiu/Light/interfaces"
 	"github.com/MeteorsLiu/Light/queue"
 )
@@ -24,14 +24,14 @@ type ElementC struct {
 	signal context.Context
 }
 
-func (e *ElementC) Upload(ip, rates *C.char) {
-	if e.queue == nil {
+func (e *ElementC) Upload(ip, rates string) {
+		if e.queue == nil {
 		return
 	}
-	e.queue.Push(interfaces.UploadPayload{
-		IP:    C.GoString(ip),
-		Rates: C.GoString(rates),
-	})
+	log.Println(e.queue.Push(interfaces.UploadPayload{
+		IP:    ip,
+		Rates: rates,
+	}))
 }
 
 // Fuck Getter
@@ -42,9 +42,9 @@ func (e *ElementC) GetUpdate() *queue.Queue {
 //export UPLOAD
 func UPLOAD(rule C.uintptr_t, ip, rates *C.char) {
 	handle := cgo.Handle(rule)
-	defer handle.Delete()
-	CALL := handle.Value().(func(*C.char, *C.char))
-	CALL(ip, rates)
+	CALL := handle.Value().(func(string, string))
+	_ip, _rates := C.GoString(ip), C.GoString(rates)
+	CALL(_ip, _rates)
 }
 func NewClient(ctx context.Context, devName, filterRule string, returnPtr *ElementC) {
 	dev := C.CString(devName)
